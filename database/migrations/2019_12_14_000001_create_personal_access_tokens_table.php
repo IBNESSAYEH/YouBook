@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->morphs('tokenable');
             $table->string('name');
-            $table->string('token')->unique(); 
+            $table->string('token')->unique();
             $table->text('abilities')->nullable();
             $table->timestamp('last_used_at')->nullable();
             $table->timestamp('expires_at')->nullable();
@@ -26,5 +26,5 @@ return new class extends Migration
         });
         DB::statement('ALTER TABLE personal_access_tokens ENGINE = InnoDB');
     }
-    
+
 };

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBook;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
@@ -15,8 +16,9 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::All();
-        return view('Books.home',['books' => $books]);
+        $books_disponible = Book::whereNull('date_rec')->get();
+        $books_emprunter = Book::whereNotNull('date_res')->get();
+        return view('Books.home',['books_emprunter' => $books_emprunter, 'books_disponible' => $books_disponible]);
     }
 
     /**
@@ -92,10 +94,48 @@ class BookController extends Controller
      */
     public function destroy(Request $request,$id)
     {
-        $book = Book::findOrFail($id);
-        $book->delete();
-        $book->save();
+        // $book = Book::findOrFail($id);
+        // $book->delete();
+        Book::destroy($id);
         session()->flash('status', 'book supprimer avec succes');
         return redirect()->back();
     }
+
+    // ResourceController.php
+
+    public function reserver( $id)
+    {
+        // Validate the request data as needed
+
+
+        // Find the reservation by its ID
+        $reservation = Book::findOrFail($id);
+
+        // Update the reservation with the validated data
+        $reservation->update([
+            'date_res' => now(),
+            'date_rec' => null,  // Par exemple, ajoutez 2 jours à la date actuelle
+        ]);
+        session()->flash('status', 'book reserver avec succes');
+        // Redirect or respond as needed
+        return redirect()->back();
+    }
+    public function recuperer( $id)
+    {
+        // Validate the request data as needed
+
+
+        // Find the reservation by its ID
+        $reservation = Book::findOrFail($id);
+
+        // Update the reservation with the validated data
+        $reservation->update([
+            'date_res' => null,
+            'date_rec' => now(),  // Par exemple, ajoutez 2 jours à la date actuelle
+        ]);
+        session()->flash('status', 'book recuperer avec succes');
+        // Redirect or respond as needed
+        return redirect()->back();
+    }
+
 }

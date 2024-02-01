@@ -15,3 +15,5 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::resource('books', BookController::class);
+Route::patch('/reservations/{book}', [BookController::class, 'reserver'])->name('reserver');
+Route::patch('/recuperation/{book}', [BookController::class, 'recuperer'])->name('recuperer');
