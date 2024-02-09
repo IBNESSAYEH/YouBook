@@ -24,7 +24,6 @@ return new class extends Migration
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();
         });
-        DB::statement('ALTER TABLE personal_access_tokens ENGINE = InnoDB');
     }
 
 };

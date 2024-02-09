@@ -6,6 +6,10 @@
     <label for="prix">Price:</label>
     <input type="number" class="form-control" id="prix" name="prix" value="{{ old("prix", $book->prix ?? null) }}" >
 </div>
+<div class="form-group">
+    <label for="prix">quantite :</label>
+    <input type="number" class="form-control" id="prix" name="prix" value="{{ old("prix", $book->prix ?? null) }}" >
+</div>
 
 @if($errors->any())
     <div class="alert alert-danger ">

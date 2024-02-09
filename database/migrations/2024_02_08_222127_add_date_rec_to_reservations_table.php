@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -14,13 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('books', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->integer('prix');
-            $table->text('description')->nullable();
-            $table->integer('quantite')->default(1);
-            $table->timestamps();
+        Schema::table('reservations', function (Blueprint $table) {
+            $table->timestamp('date_rec');
         });
     }
 
@@ -31,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('books');
+        Schema::table('reservations', function (Blueprint $table) {
+            $table->dropColumn('date_rec');
+        });
     }
 };

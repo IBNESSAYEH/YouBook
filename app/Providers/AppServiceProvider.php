@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Reservation;
+use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\ServiceProvider;
+
 use Illuminate\Support\Facades\Schema;
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +27,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
+        view()->composer('*', function ($view) {
+            $reservationCount = Reservation::where('user_id', auth()->id())
+                                           ->where('date_rec', '>', Carbon::now())
+                                           ->count();
+            $view->with('reservationCount', $reservationCount);
+        });
+
     }
 }
