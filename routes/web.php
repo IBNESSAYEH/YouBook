@@ -25,11 +25,13 @@ use Illuminate\Support\Facades\Auth;
 
 Route::middleware([IsAuthenticated::class])->group(function () {
     Route::resource('books', BookController::class)->only('index','show');
-    
+
+
 });
 
 Route::middleware([IsBibliothecaire::class])->group(function () {
     Route::resource('books', BookController::class)->except('index','show');
+    
 });
 
 
