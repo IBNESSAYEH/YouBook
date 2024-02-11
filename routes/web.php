@@ -23,14 +23,15 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// Route::middleware([IsAuthenticated::class])->group(function () {
-    Route::get('/client/books', [BookController::class, 'index'])->name('books.index');
-// });
+Route::middleware([IsAuthenticated::class])->group(function () {
+    Route::resource('books', BookController::class)->only('index','show');
+    
+});
 
-// Route::middleware([IsBibliothecaire::class])->group(function () {
-    Route::resource('books', BookController::class);
-// });
-//
+Route::middleware([IsBibliothecaire::class])->group(function () {
+    Route::resource('books', BookController::class)->except('index','show');
+});
+
 
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
